@@ -1,0 +1,633 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346735CA2FDCF6F900FF1220 /* Assets.xcassets */; };
+		346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735CB2FDCF6F900FF1220 /* FocalApp.swift */; };
+		346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735DF2FDCF8A300FF1220 /* WidgetKit.framework */; };
+		346735E22FDCF8A300FF1220 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735E12FDCF8A300FF1220 /* SwiftUI.framework */; };
+		346735EF2FDCF8A400FF1220 /* FocalWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 346735DD2FDCF8A300FF1220 /* FocalWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		346735F72FDCF92900FF1220 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 346735F62FDCF92900FF1220 /* Products.storekit */; };
+		346735F82FDCF92900FF1220 /* Products.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 346735F62FDCF92900FF1220 /* Products.storekit */; };
+		346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735F92FDD024300FF1220 /* FocusSession.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		346735ED2FDCF8A400FF1220 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 340AC7EC2FDCF5D6000D38C8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 346735DC2FDCF8A300FF1220;
+			remoteInfo = FocalWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		346735F42FDCF8A400FF1220 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				346735EF2FDCF8A400FF1220 /* FocalWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		340AC7F42FDCF5D6000D38C8 /* Focal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		346735CA2FDCF6F900FF1220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		346735CB2FDCF6F900FF1220 /* FocalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocalApp.swift; sourceTree = "<group>"; };
+		346735D72FDCF80A00FF1220 /* Focal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Focal.entitlements; sourceTree = "<group>"; };
+		346735D82FDCF84F00FF1220 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		346735DD2FDCF8A300FF1220 /* FocalWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FocalWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		346735DF2FDCF8A300FF1220 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		346735E12FDCF8A300FF1220 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		346735F52FDCF8BE00FF1220 /* FocalWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FocalWidgetExtension.entitlements; sourceTree = "<group>"; };
+		346735F62FDCF92900FF1220 /* Products.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = Products.storekit; sourceTree = "<group>"; };
+		346735F92FDD024300FF1220 /* FocusSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusSession.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		346735F02FDCF8A400FF1220 /* Exceptions for "FocalWidget" folder in "FocalWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 346735DC2FDCF8A300FF1220 /* FocalWidgetExtension */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		346735E32FDCF8A300FF1220 /* FocalWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				346735F02FDCF8A400FF1220 /* Exceptions for "FocalWidget" folder in "FocalWidgetExtension" target */,
+			);
+			path = FocalWidget;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		340AC7F12FDCF5D6000D38C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		346735DA2FDCF8A300FF1220 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346735E22FDCF8A300FF1220 /* SwiftUI.framework in Frameworks */,
+				346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		340AC7EB2FDCF5D6000D38C8 = {
+			isa = PBXGroup;
+			children = (
+				346735F62FDCF92900FF1220 /* Products.storekit */,
+				346735F52FDCF8BE00FF1220 /* FocalWidgetExtension.entitlements */,
+				346735CC2FDCF6F900FF1220 /* Focal */,
+				346735E32FDCF8A300FF1220 /* FocalWidget */,
+				346735DE2FDCF8A300FF1220 /* Frameworks */,
+				340AC7F52FDCF5D6000D38C8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		340AC7F52FDCF5D6000D38C8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				340AC7F42FDCF5D6000D38C8 /* Focal.app */,
+				346735DD2FDCF8A300FF1220 /* FocalWidgetExtension.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		346735C92FDCF6D700FF1220 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				346735D22FDCF75C00FF1220 /* Timer */,
+				346735D32FDCF76300FF1220 /* Stats */,
+				346735D42FDCF76D00FF1220 /* Settings */,
+				346735D52FDCF77E00FF1220 /* Paywall */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		346735CC2FDCF6F900FF1220 /* Focal */ = {
+			isa = PBXGroup;
+			children = (
+				346735D82FDCF84F00FF1220 /* Info.plist */,
+				346735D72FDCF80A00FF1220 /* Focal.entitlements */,
+				346735CB2FDCF6F900FF1220 /* FocalApp.swift */,
+				346735C92FDCF6D700FF1220 /* Features */,
+				346735CF2FDCF72D00FF1220 /* Models */,
+				346735D02FDCF73D00FF1220 /* Services */,
+				346735D12FDCF74600FF1220 /* UI */,
+				346735CA2FDCF6F900FF1220 /* Assets.xcassets */,
+			);
+			path = Focal;
+			sourceTree = "<group>";
+		};
+		346735CF2FDCF72D00FF1220 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				346735F92FDD024300FF1220 /* FocusSession.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		346735D02FDCF73D00FF1220 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		346735D12FDCF74600FF1220 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				346735D62FDCF79000FF1220 /* Components */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		346735D22FDCF75C00FF1220 /* Timer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Timer;
+			sourceTree = "<group>";
+		};
+		346735D32FDCF76300FF1220 /* Stats */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Stats;
+			sourceTree = "<group>";
+		};
+		346735D42FDCF76D00FF1220 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		346735D52FDCF77E00FF1220 /* Paywall */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Paywall;
+			sourceTree = "<group>";
+		};
+		346735D62FDCF79000FF1220 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		346735DE2FDCF8A300FF1220 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				346735DF2FDCF8A300FF1220 /* WidgetKit.framework */,
+				346735E12FDCF8A300FF1220 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		340AC7F32FDCF5D6000D38C8 /* Focal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 340AC8012FDCF5D7000D38C8 /* Build configuration list for PBXNativeTarget "Focal" */;
+			buildPhases = (
+				340AC7F02FDCF5D6000D38C8 /* Sources */,
+				340AC7F12FDCF5D6000D38C8 /* Frameworks */,
+				340AC7F22FDCF5D6000D38C8 /* Resources */,
+				346735F42FDCF8A400FF1220 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				346735EE2FDCF8A400FF1220 /* PBXTargetDependency */,
+			);
+			name = Focal;
+			packageProductDependencies = (
+			);
+			productName = Focal;
+			productReference = 340AC7F42FDCF5D6000D38C8 /* Focal.app */;
+			productType = "com.apple.product-type.application";
+		};
+		346735DC2FDCF8A300FF1220 /* FocalWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 346735F12FDCF8A400FF1220 /* Build configuration list for PBXNativeTarget "FocalWidgetExtension" */;
+			buildPhases = (
+				346735D92FDCF8A300FF1220 /* Sources */,
+				346735DA2FDCF8A300FF1220 /* Frameworks */,
+				346735DB2FDCF8A300FF1220 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				346735E32FDCF8A300FF1220 /* FocalWidget */,
+			);
+			name = FocalWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = FocalWidgetExtension;
+			productReference = 346735DD2FDCF8A300FF1220 /* FocalWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		340AC7EC2FDCF5D6000D38C8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2650;
+				LastUpgradeCheck = 2650;
+				TargetAttributes = {
+					340AC7F32FDCF5D6000D38C8 = {
+						CreatedOnToolsVersion = 26.5;
+					};
+					346735DC2FDCF8A300FF1220 = {
+						CreatedOnToolsVersion = 26.5;
+					};
+				};
+			};
+			buildConfigurationList = 340AC7EF2FDCF5D6000D38C8 /* Build configuration list for PBXProject "Focal" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 340AC7EB2FDCF5D6000D38C8;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 340AC7F52FDCF5D6000D38C8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				340AC7F32FDCF5D6000D38C8 /* Focal */,
+				346735DC2FDCF8A300FF1220 /* FocalWidgetExtension */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		340AC7F22FDCF5D6000D38C8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346735F82FDCF92900FF1220 /* Products.storekit in Resources */,
+				346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		346735DB2FDCF8A300FF1220 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346735F72FDCF92900FF1220 /* Products.storekit in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		340AC7F02FDCF5D6000D38C8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */,
+				346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		346735D92FDCF8A300FF1220 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		346735EE2FDCF8A400FF1220 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 346735DC2FDCF8A300FF1220 /* FocalWidgetExtension */;
+			targetProxy = 346735ED2FDCF8A400FF1220 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		340AC7FF2FDCF5D7000D38C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		340AC8002FDCF5D7000D38C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		340AC8022FDCF5D7000D38C8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Focal/Focal.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Focal/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewtripodi.Focal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		340AC8032FDCF5D7000D38C8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Focal/Focal.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Focal/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewtripodi.Focal;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		346735F22FDCF8A400FF1220 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FocalWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocalWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocalWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewtripodi.Focal.FocalWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		346735F32FDCF8A400FF1220 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = FocalWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = J5P95JSAVD;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FocalWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FocalWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.matthewtripodi.Focal.FocalWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		340AC7EF2FDCF5D6000D38C8 /* Build configuration list for PBXProject "Focal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				340AC7FF2FDCF5D7000D38C8 /* Debug */,
+				340AC8002FDCF5D7000D38C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		340AC8012FDCF5D7000D38C8 /* Build configuration list for PBXNativeTarget "Focal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				340AC8022FDCF5D7000D38C8 /* Debug */,
+				340AC8032FDCF5D7000D38C8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		346735F12FDCF8A400FF1220 /* Build configuration list for PBXNativeTarget "FocalWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				346735F22FDCF8A400FF1220 /* Debug */,
+				346735F32FDCF8A400FF1220 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 340AC7EC2FDCF5D6000D38C8 /* Project object */;
+}

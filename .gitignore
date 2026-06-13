@@ -1,62 +1,137 @@
+# ========================
 # Xcode
-#
-# gitignore contributors: remember to update Global/Xcode.gitignore, Objective-C.gitignore & Swift.gitignore
+# ========================
 
-## User settings
+# Build output
+build/
+DerivedData/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
 xcuserdata/
 
-## Obj-C/Swift specific
-*.hmap
+# Xcode Scheme settings (keep shared schemes, ignore personal)
+*.xcscheme
+!*.xcscheme
 
-## App packaging
-*.ipa
-*.dSYM.zip
-*.dSYM
+# Xcode workspace settings
+*.xcworkspace/xcuserdata/
+*.xcworkspace/xcshareddata/IDEWorkspaceChecks.plist
 
-## Playgrounds
+# Instruments
+*.trace
+
+# Playgrounds
 timeline.xctimeline
 playground.xcworkspace
 
+# Simulator
+*.moved-aside
+
+# ========================
 # Swift Package Manager
-#
-# Add this line if you want to avoid checking in source code from Swift Package Manager dependencies.
-# Packages/
-# Package.pins
-# Package.resolved
-# *.xcodeproj
-#
-# Xcode automatically generates this directory with a .xcworkspacedata file and xcuserdata
-# hence it is not needed unless you have added a package configuration file to your project
-# .swiftpm
+# ========================
 
 .build/
+.swiftpm/
+Packages/
+Package.resolved   # Commit this if you want reproducible builds; ignore if you prefer flexibility
 
+# ========================
 # CocoaPods
-#
-# We recommend against adding the Pods directory to your .gitignore. However
-# you should judge for yourself, the pros and cons are mentioned at:
-# https://guides.cocoapods.org/using/using-cocoapods.html#should-i-check-the-pods-directory-into-source-control
-#
-# Pods/
-#
-# Add this line if you want to avoid checking in source code from the Xcode workspace
-# *.xcworkspace
+# ========================
 
+# Pods directory (uncomment if not committing Pods)
+# Pods/
+# Podfile.lock  # Commit this — it ensures reproducible installs
+
+# ========================
 # Carthage
-#
-# Add this line if you want to avoid checking in source code from Carthage dependencies.
-# Carthage/Checkouts
+# ========================
 
 Carthage/Build/
+# Carthage/Checkouts/  # Uncomment if not committing checkouts
 
+# ========================
+# Tuist / XcodeGen
+# ========================
+
+Derived/
+*.resolved
+
+# ========================
 # fastlane
-#
-# It is recommended to not store the screenshots in the git repo.
-# Instead, use fastlane to re-generate the screenshots whenever they are needed.
-# For more information about the recommended setup visit:
-# https://docs.fastlane.tools/best-practices/source-control/#source-control
+# ========================
 
 fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
-fastlane/test_output
+fastlane/test_output/
+
+# ========================
+# Code signing & credentials
+# ========================
+
+*.p12
+*.cer
+*.certSigningRequest
+*.mobileprovision
+*.provisionprofile
+AuthKey_*.p8   # App Store Connect API keys — never commit these
+
+# ========================
+# Environment & secrets
+# ========================
+
+.env
+.env.*
+Secrets.swift
+Secrets.plist
+GoogleService-Info.plist   # Remove if you want to commit this (some teams do)
+secrets/
+
+# ========================
+# macOS
+# ========================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+.fseventsd
+
+# ========================
+# Xcode local overrides
+# ========================
+
+*.xccheckout
+*.xcscmblueprint
+
+# ========================
+# Testing
+# ========================
+
+*.xccoverage
+*.xccovreport
+TestResults/
+
+# ========================
+# SwiftLint / SwiftFormat
+# ========================
+
+# Keep .swiftlint.yml and .swiftformat committed
+# Add any local override files here if needed
+
+# ========================
+# Dependency lock files (notes)
+# ========================
+
+# Podfile.lock      → COMMIT (ensures consistent pod versions across the team)
+# Package.resolved  → COMMIT if using SPM with a team; listed above but consider removing that line
