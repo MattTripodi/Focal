@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5922FF0D1EA00A78DA1 /* TimeService.swift */; };
+		3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5942FF0D2E300A78DA1 /* TimerView.swift */; };
+		3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */; };
 		346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346735CA2FDCF6F900FF1220 /* Assets.xcassets */; };
 		346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735CB2FDCF6F900FF1220 /* FocalApp.swift */; };
 		346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735DF2FDCF8A300FF1220 /* WidgetKit.framework */; };
@@ -43,6 +46,9 @@
 
 /* Begin PBXFileReference section */
 		340AC7F42FDCF5D6000D38C8 /* Focal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3428D5922FF0D1EA00A78DA1 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
+		3428D5942FF0D2E300A78DA1 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
+		3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContainer+Focal.swift"; sourceTree = "<group>"; };
 		346735CA2FDCF6F900FF1220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		346735CB2FDCF6F900FF1220 /* FocalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocalApp.swift; sourceTree = "<group>"; };
 		346735D72FDCF80A00FF1220 /* Focal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Focal.entitlements; sourceTree = "<group>"; };
@@ -134,6 +140,7 @@
 				346735D82FDCF84F00FF1220 /* Info.plist */,
 				346735D72FDCF80A00FF1220 /* Focal.entitlements */,
 				346735CB2FDCF6F900FF1220 /* FocalApp.swift */,
+				3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */,
 				346735C92FDCF6D700FF1220 /* Features */,
 				346735CF2FDCF72D00FF1220 /* Models */,
 				346735D02FDCF73D00FF1220 /* Services */,
@@ -154,6 +161,7 @@
 		346735D02FDCF73D00FF1220 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				3428D5922FF0D1EA00A78DA1 /* TimeService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -169,6 +177,7 @@
 		346735D22FDCF75C00FF1220 /* Timer */ = {
 			isa = PBXGroup;
 			children = (
+				3428D5942FF0D2E300A78DA1 /* TimerView.swift */,
 			);
 			path = Timer;
 			sourceTree = "<group>";
@@ -320,6 +329,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */,
+				3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */,
+				3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */,
+				3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */,
 				346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

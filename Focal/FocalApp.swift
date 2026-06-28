@@ -10,31 +10,13 @@ import SwiftData
 
 @main
 struct FocalApp: App {
-    
-    let container: ModelContainer
-    
-    init() {
-        // Use the App Group container URL so FocalWidget can read sessions
-        guard let groupURL = FileManager.default
-            .containerURL(forSecurityApplicationGroupIdentifier: "group.com.matthewtripodi.focal") else {
-            fatalError("App Group container URL not found — check your entitlements.")
-        }
-        
-        let storeURL = groupURL.appendingPathComponent("focal.store")
-        
-        let config = ModelConfiguration(url: storeURL)
-        
-        do {
-            container = try ModelContainer(for: FocusSession.self, configurations: config)
-        } catch {
-            fatalError("Failed to create ModelContainer: \(error)")
-        }
-    }
-    
+    @State private var timerService = TimerService()
+
     var body: some Scene {
         WindowGroup {
             TimerView()
+                .environment(timerService)
         }
-        .modelContainer(container)
+        .modelContainer(ModelContainer.focal)
     }
 }
