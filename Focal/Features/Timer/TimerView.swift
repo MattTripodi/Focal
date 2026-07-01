@@ -9,6 +9,8 @@ import SwiftUI
 
 struct TimerView: View {
     @Environment(TimerService.self) private var timer
+    @Environment(AudioManager.self) private var audio
+    @State private var showingSoundPicker = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -76,6 +78,29 @@ struct TimerView: View {
                     timer.skip()
                 }
             }
+            
+            Spacer()
+            
+            // Sound picker button
+            Button {
+                showingSoundPicker = true
+            } label: {
+                HStack(spacing: 6) {
+                    Image(systemName: audio.currentSound.systemImage)
+                    Text(audio.currentSound.rawValue)
+                        .font(.subheadline)
+                }
+                .foregroundStyle(.secondary)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(.secondary.opacity(0.1), in: Capsule())
+            }
+            .buttonStyle(.plain)
+            .sheet(isPresented: $showingSoundPicker) {
+                SoundPickerSheet(audio: audio)
+                    .presentationDetents([.height(320)])
+                    .presentationDragIndicator(.visible)
+            }
 
             Spacer().frame(height: 52)
         }
@@ -132,6 +157,60 @@ private struct TimerControlButton: View {
             }
         }
         .buttonStyle(.plain)
+    }
+}
+
+// MARK: - Sound Picker Sheet
+
+private struct SoundPickerSheet: View {
+    let audio: AudioManager
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 0) {
+            Text("Ambient Sound")
+                .font(.headline)
+                .padding(.horizontal)
+                .padding(.top, 24)
+                .padding(.bottom, 16)
+
+            ForEach(AudioManager.Sound.allCases) { sound in
+                // Premium sounds are visible but disabled until Day 4 paywall
+                Button {
+                    if sound == audio.currentSound {
+                        audio.stop()
+                    } else {
+                        audio.play(sound)
+                    }
+                } label: {
+                    HStack {
+                        Image(systemName: sound.systemImage)
+                            .frame(width: 28)
+                        Text(sound.rawValue)
+                        Spacer()
+                        if sound.isPremium {
+                            Text("PRO")
+                                .font(.caption2)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.secondary)
+                                .padding(.horizontal, 6)
+                                .padding(.vertical, 2)
+                                .overlay(
+                                    Capsule().stroke(Color.secondary.opacity(0.4))
+                                )
+                        }
+                        if sound == audio.currentSound {
+                            Image(systemName: "checkmark")
+                                .foregroundStyle(.primary)
+                        }
+                    }
+                    .foregroundStyle(sound.isPremium ? .secondary : .primary)
+                    .padding(.horizontal)
+                    .padding(.vertical, 12)
+                }
+                .buttonStyle(.plain)
+                .disabled(sound.isPremium) // gates open on Day 4
+            }
+        }
     }
 }
 

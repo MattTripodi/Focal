@@ -46,15 +46,21 @@ final class TimerService {
 
     // MARK: - Settings (premium will override these later)
 
-    var workDuration: TimeInterval      = 25 * 60
-    var shortBreakDuration: TimeInterval = 5 * 60
-    var longBreakDuration: TimeInterval  = 15 * 60
+    var workDuration: TimeInterval      =  5 //25 * 60
+    var shortBreakDuration: TimeInterval = 3 //5 * 60
+    var longBreakDuration: TimeInterval  = 3 //15 * 60
     let sessionsPerCycle: Int = 4
 
     // MARK: - Callbacks
 
     /// Fires when a work session completes naturally. Wire to SwiftData save on Day 2.
     var onPhaseComplete: ((Phase) -> Void)?
+    
+    /// Fires when the timer starts running. Use to schedule a notification.
+    var onTimerStarted: ((Phase, TimeInterval) -> Void)?
+
+    /// Fires on pause, reset, or skip. Use to cancel pending notifications.
+    var onTimerPausedOrReset: (() -> Void)?
 
     // MARK: - Private
 
@@ -87,6 +93,7 @@ final class TimerService {
     func start() {
         guard timerState != .running else { return }
         timerState = .running
+        onTimerStarted?(phase, timeRemaining)
         startTicking()
     }
 
@@ -95,6 +102,7 @@ final class TimerService {
         timerState = .paused
         timerTask?.cancel()
         timerTask = nil
+        onTimerPausedOrReset?()
     }
 
     func reset() {
@@ -102,10 +110,12 @@ final class TimerService {
         timerTask = nil
         timerState = .idle
         timeRemaining = currentPhaseDuration
+        onTimerPausedOrReset?()
     }
 
     /// Skips the current phase without counting it as a completed session.
     func skip() {
+        onTimerPausedOrReset?()
         advancePhase(sessionCompleted: false)
     }
 
