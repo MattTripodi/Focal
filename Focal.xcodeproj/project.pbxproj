@@ -26,6 +26,10 @@
 		34B2F6472FF4BD62009DE650 /* sound_cafe.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 34B2F6402FF4BD62009DE650 /* sound_cafe.mp3 */; };
 		34B2F6482FF4BD62009DE650 /* sound_forest.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 34B2F6412FF4BD62009DE650 /* sound_forest.mp3 */; };
 		34B2F6492FF4BD62009DE650 /* sound_whitenoise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 34B2F6442FF4BD62009DE650 /* sound_whitenoise.mp3 */; };
+		34B2F64B2FF4C192009DE650 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B2F64A2FF4C192009DE650 /* ContentView.swift */; };
+		34B2F64D2FF4C1DD009DE650 /* StatsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B2F64C2FF4C1DD009DE650 /* StatsViewModel.swift */; };
+		34B2F64F2FF4C207009DE650 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B2F64E2FF4C207009DE650 /* StatsView.swift */; };
+		34B2F6512FF4C276009DE650 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B2F6502FF4C276009DE650 /* SettingsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -75,6 +79,10 @@
 		34B2F6422FF4BD62009DE650 /* sound_ocean.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_ocean.mp3; sourceTree = "<group>"; };
 		34B2F6432FF4BD62009DE650 /* sound_rain.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_rain.mp3; sourceTree = "<group>"; };
 		34B2F6442FF4BD62009DE650 /* sound_whitenoise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = sound_whitenoise.mp3; sourceTree = "<group>"; };
+		34B2F64A2FF4C192009DE650 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		34B2F64C2FF4C1DD009DE650 /* StatsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsViewModel.swift; sourceTree = "<group>"; };
+		34B2F64E2FF4C207009DE650 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		34B2F6502FF4C276009DE650 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -158,6 +166,7 @@
 				346735CB2FDCF6F900FF1220 /* FocalApp.swift */,
 				3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */,
 				34B2F63E2FF4B92E009DE650 /* AppEnvironment.swift */,
+				34B2F64A2FF4C192009DE650 /* ContentView.swift */,
 				346735C92FDCF6D700FF1220 /* Features */,
 				346735CF2FDCF72D00FF1220 /* Models */,
 				346735D02FDCF73D00FF1220 /* Services */,
@@ -209,6 +218,8 @@
 		346735D32FDCF76300FF1220 /* Stats */ = {
 			isa = PBXGroup;
 			children = (
+				34B2F64C2FF4C1DD009DE650 /* StatsViewModel.swift */,
+				34B2F64E2FF4C207009DE650 /* StatsView.swift */,
 			);
 			path = Stats;
 			sourceTree = "<group>";
@@ -216,6 +227,7 @@
 		346735D42FDCF76D00FF1220 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				34B2F6502FF4C276009DE650 /* SettingsView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -357,12 +369,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34B2F64F2FF4C207009DE650 /* StatsView.swift in Sources */,
+				34B2F64D2FF4C1DD009DE650 /* StatsViewModel.swift in Sources */,
 				34B2F63B2FF4B891009DE650 /* NotificationManager.swift in Sources */,
 				34B2F63D2FF4B8D2009DE650 /* AudioManager.swift in Sources */,
 				346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */,
 				3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */,
 				3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */,
+				34B2F64B2FF4C192009DE650 /* ContentView.swift in Sources */,
 				34B2F63F2FF4B92E009DE650 /* AppEnvironment.swift in Sources */,
+				34B2F6512FF4C276009DE650 /* SettingsView.swift in Sources */,
 				3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */,
 				346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */,
 			);

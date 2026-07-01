@@ -46,9 +46,32 @@ final class TimerService {
 
     // MARK: - Settings (premium will override these later)
 
-    var workDuration: TimeInterval      =  5 //25 * 60
-    var shortBreakDuration: TimeInterval = 3 //5 * 60
-    var longBreakDuration: TimeInterval  = 3 //15 * 60
+    var workDuration: TimeInterval = {
+        let v = UserDefaults.standard.double(forKey: "focal.workDuration")
+        return v > 0 ? v : 25 * 60
+    }() {
+        didSet { UserDefaults.standard.set(workDuration, forKey: "focal.workDuration") }
+    }
+
+    var shortBreakDuration: TimeInterval = {
+        let v = UserDefaults.standard.double(forKey: "focal.shortBreakDuration")
+        return v > 0 ? v : 5 * 60
+    }() {
+        didSet { UserDefaults.standard.set(shortBreakDuration, forKey: "focal.shortBreakDuration") }
+    }
+
+    var longBreakDuration: TimeInterval = {
+        let v = UserDefaults.standard.double(forKey: "focal.longBreakDuration")
+        return v > 0 ? v : 15 * 60
+    }() {
+        didSet { UserDefaults.standard.set(longBreakDuration, forKey: "focal.longBreakDuration") }
+    }
+
+    // Add after longBreakDuration:
+    var autoStartNextSession: Bool = UserDefaults.standard.bool(forKey: "focal.autoStart") {
+        didSet { UserDefaults.standard.set(autoStartNextSession, forKey: "focal.autoStart") }
+    }
+    
     let sessionsPerCycle: Int = 4
 
     // MARK: - Callbacks
@@ -163,5 +186,8 @@ final class TimerService {
 
         timeRemaining = currentPhaseDuration
         timerState = .idle
+        if autoStartNextSession {
+            start()
+        }
     }
 }

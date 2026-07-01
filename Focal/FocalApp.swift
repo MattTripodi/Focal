@@ -14,7 +14,7 @@ struct FocalApp: App {
 
     var body: some Scene {
         WindowGroup {
-            TimerView()
+            ContentView()
                 .environment(env.timerService)
                 .environment(env.notificationManager)
                 .environment(env.audioManager)
