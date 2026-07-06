@@ -7,11 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5922FF0D1EA00A78DA1 /* TimeService.swift */; };
+		3428D5932FF0D1EA00A78DA1 /* TimerService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5922FF0D1EA00A78DA1 /* TimerService.swift */; };
 		3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5942FF0D2E300A78DA1 /* TimerView.swift */; };
 		3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */; };
 		344D30702FFB351D00BFCBA6 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D306F2FFB351D00BFCBA6 /* StoreManager.swift */; };
 		344D30722FFB358200BFCBA6 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30712FFB358200BFCBA6 /* PaywallView.swift */; };
+		344D30752FFB567800BFCBA6 /* WidgetTimerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */; };
+		344D30762FFB568E00BFCBA6 /* WidgetTimerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */; };
+		344D30782FFB56D700BFCBA6 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30772FFB56D700BFCBA6 /* WidgetDataManager.swift */; };
 		346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346735CA2FDCF6F900FF1220 /* Assets.xcassets */; };
 		346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735CB2FDCF6F900FF1220 /* FocalApp.swift */; };
 		346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735DF2FDCF8A300FF1220 /* WidgetKit.framework */; };
@@ -60,11 +63,13 @@
 
 /* Begin PBXFileReference section */
 		340AC7F42FDCF5D6000D38C8 /* Focal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Focal.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		3428D5922FF0D1EA00A78DA1 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
+		3428D5922FF0D1EA00A78DA1 /* TimerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerService.swift; sourceTree = "<group>"; };
 		3428D5942FF0D2E300A78DA1 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContainer+Focal.swift"; sourceTree = "<group>"; };
 		344D306F2FFB351D00BFCBA6 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
 		344D30712FFB358200BFCBA6 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTimerData.swift; sourceTree = "<group>"; };
+		344D30772FFB56D700BFCBA6 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
 		346735CA2FDCF6F900FF1220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		346735CB2FDCF6F900FF1220 /* FocalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocalApp.swift; sourceTree = "<group>"; };
 		346735D72FDCF80A00FF1220 /* Focal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Focal.entitlements; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 		340AC7EB2FDCF5D6000D38C8 = {
 			isa = PBXGroup;
 			children = (
+				344D30732FFB564F00BFCBA6 /* Shared */,
 				346735F62FDCF92900FF1220 /* Products.storekit */,
 				346735F52FDCF8BE00FF1220 /* FocalWidgetExtension.entitlements */,
 				346735CC2FDCF6F900FF1220 /* Focal */,
@@ -149,6 +155,14 @@
 				346735DD2FDCF8A300FF1220 /* FocalWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		344D30732FFB564F00BFCBA6 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */,
+			);
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		346735C92FDCF6D700FF1220 /* Features */ = {
@@ -196,10 +210,11 @@
 		346735D02FDCF73D00FF1220 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				3428D5922FF0D1EA00A78DA1 /* TimeService.swift */,
+				3428D5922FF0D1EA00A78DA1 /* TimerService.swift */,
 				34B2F63A2FF4B891009DE650 /* NotificationManager.swift */,
 				34B2F63C2FF4B8D2009DE650 /* AudioManager.swift */,
 				344D306F2FFB351D00BFCBA6 /* StoreManager.swift */,
+				344D30772FFB56D700BFCBA6 /* WidgetDataManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -381,11 +396,13 @@
 				34B2F63D2FF4B8D2009DE650 /* AudioManager.swift in Sources */,
 				346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */,
 				3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */,
-				3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */,
+				3428D5932FF0D1EA00A78DA1 /* TimerService.swift in Sources */,
 				344D30722FFB358200BFCBA6 /* PaywallView.swift in Sources */,
 				34B2F64B2FF4C192009DE650 /* ContentView.swift in Sources */,
 				344D30702FFB351D00BFCBA6 /* StoreManager.swift in Sources */,
 				34B2F63F2FF4B92E009DE650 /* AppEnvironment.swift in Sources */,
+				344D30782FFB56D700BFCBA6 /* WidgetDataManager.swift in Sources */,
+				344D30752FFB567800BFCBA6 /* WidgetTimerData.swift in Sources */,
 				34B2F6512FF4C276009DE650 /* SettingsView.swift in Sources */,
 				3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */,
 				346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */,
@@ -396,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				344D30762FFB568E00BFCBA6 /* WidgetTimerData.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

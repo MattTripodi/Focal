@@ -35,6 +35,9 @@ final class AppEnvironment {
             self?.notificationManager.cancelPending()
         }
 
-        // (SwiftData session save will be wired here on Day 4 via onPhaseComplete)
+        timerService.onWidgetNeedsUpdate = { [weak self] in
+            guard let self else { return }
+            WidgetDataManager.shared.update(from: timerService)
+        }
     }
 }

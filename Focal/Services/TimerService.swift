@@ -1,5 +1,5 @@
 //
-//  TimeService.swift
+//  TimerService.swift
 //  Focal
 //
 //  Created by Matthew Tripodi on 6/27/26.
@@ -84,6 +84,9 @@ final class TimerService {
 
     /// Fires on pause, reset, or skip. Use to cancel pending notifications.
     var onTimerPausedOrReset: (() -> Void)?
+    
+    /// Fires on any state change that the widget should reflect.
+    var onWidgetNeedsUpdate: (() -> Void)?
 
     // MARK: - Private
 
@@ -116,6 +119,7 @@ final class TimerService {
     func start() {
         guard timerState != .running else { return }
         timerState = .running
+        onWidgetNeedsUpdate?()
         onTimerStarted?(phase, timeRemaining)
         startTicking()
     }
@@ -125,6 +129,7 @@ final class TimerService {
         timerState = .paused
         timerTask?.cancel()
         timerTask = nil
+        onWidgetNeedsUpdate?()
         onTimerPausedOrReset?()
     }
 
@@ -132,6 +137,7 @@ final class TimerService {
         timerTask?.cancel()
         timerTask = nil
         timerState = .idle
+        onWidgetNeedsUpdate?()
         timeRemaining = currentPhaseDuration
         onTimerPausedOrReset?()
     }
