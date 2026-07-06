@@ -10,6 +10,8 @@
 		3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5922FF0D1EA00A78DA1 /* TimeService.swift */; };
 		3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5942FF0D2E300A78DA1 /* TimerView.swift */; };
 		3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */; };
+		344D30702FFB351D00BFCBA6 /* StoreManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D306F2FFB351D00BFCBA6 /* StoreManager.swift */; };
+		344D30722FFB358200BFCBA6 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30712FFB358200BFCBA6 /* PaywallView.swift */; };
 		346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346735CA2FDCF6F900FF1220 /* Assets.xcassets */; };
 		346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735CB2FDCF6F900FF1220 /* FocalApp.swift */; };
 		346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735DF2FDCF8A300FF1220 /* WidgetKit.framework */; };
@@ -61,6 +63,8 @@
 		3428D5922FF0D1EA00A78DA1 /* TimeService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeService.swift; sourceTree = "<group>"; };
 		3428D5942FF0D2E300A78DA1 /* TimerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerView.swift; sourceTree = "<group>"; };
 		3428D5962FF0D42200A78DA1 /* ModelContainer+Focal.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModelContainer+Focal.swift"; sourceTree = "<group>"; };
+		344D306F2FFB351D00BFCBA6 /* StoreManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreManager.swift; sourceTree = "<group>"; };
+		344D30712FFB358200BFCBA6 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		346735CA2FDCF6F900FF1220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		346735CB2FDCF6F900FF1220 /* FocalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocalApp.swift; sourceTree = "<group>"; };
 		346735D72FDCF80A00FF1220 /* Focal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Focal.entitlements; sourceTree = "<group>"; };
@@ -195,6 +199,7 @@
 				3428D5922FF0D1EA00A78DA1 /* TimeService.swift */,
 				34B2F63A2FF4B891009DE650 /* NotificationManager.swift */,
 				34B2F63C2FF4B8D2009DE650 /* AudioManager.swift */,
+				344D306F2FFB351D00BFCBA6 /* StoreManager.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -235,6 +240,7 @@
 		346735D52FDCF77E00FF1220 /* Paywall */ = {
 			isa = PBXGroup;
 			children = (
+				344D30712FFB358200BFCBA6 /* PaywallView.swift */,
 			);
 			path = Paywall;
 			sourceTree = "<group>";
@@ -309,7 +315,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 2650;
-				LastUpgradeCheck = 2650;
+				LastUpgradeCheck = 2660;
 				TargetAttributes = {
 					340AC7F32FDCF5D6000D38C8 = {
 						CreatedOnToolsVersion = 26.5;
@@ -376,7 +382,9 @@
 				346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */,
 				3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */,
 				3428D5932FF0D1EA00A78DA1 /* TimeService.swift in Sources */,
+				344D30722FFB358200BFCBA6 /* PaywallView.swift in Sources */,
 				34B2F64B2FF4C192009DE650 /* ContentView.swift in Sources */,
+				344D30702FFB351D00BFCBA6 /* StoreManager.swift in Sources */,
 				34B2F63F2FF4B92E009DE650 /* AppEnvironment.swift in Sources */,
 				34B2F6512FF4C276009DE650 /* SettingsView.swift in Sources */,
 				3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */,
@@ -461,6 +469,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -518,6 +527,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				VALIDATE_PRODUCT = YES;
 			};

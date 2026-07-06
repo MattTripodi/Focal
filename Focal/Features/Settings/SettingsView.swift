@@ -11,6 +11,8 @@ struct SettingsView: View {
     @Environment(TimerService.self) private var timerService
     @Environment(AudioManager.self) private var audio
     @State private var showingSoundPicker = false
+    @Environment(StoreManager.self) private var store
+    @State private var showingPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -24,9 +26,12 @@ struct SettingsView: View {
             .navigationBarTitleDisplayMode(.large)
         }
         .sheet(isPresented: $showingSoundPicker) {
-            SoundPickerSheet(audio: audio)
-                .presentationDetents([.height(320)])
-                .presentationDragIndicator(.visible)
+            SoundPickerSheet(audio: audio, isPremium: store.isPremium) {
+                showingSoundPicker = false
+                showingPaywall = true
+            }
+            .presentationDetents([.height(320)])
+            .presentationDragIndicator(.visible)
         }
     }
 
@@ -34,15 +39,44 @@ struct SettingsView: View {
 
     private var timerSection: some View {
         Section {
-            DurationRow(label: "Work",        minutes: Int(timerService.workDuration / 60))
-            DurationRow(label: "Short Break", minutes: Int(timerService.shortBreakDuration / 60))
-            DurationRow(label: "Long Break",  minutes: Int(timerService.longBreakDuration / 60))
+            DurationRow(
+                label: "Work",
+                minutes: Int(timerService.workDuration / 60),
+                isPremium: store.isPremium
+            ) { minutes in
+                timerService.workDuration = TimeInterval(minutes * 60)
+            } onLocked: {
+                showingPaywall = true
+            }
+
+            DurationRow(
+                label: "Short Break",
+                minutes: Int(timerService.shortBreakDuration / 60),
+                isPremium: store.isPremium
+            ) { minutes in
+                timerService.shortBreakDuration = TimeInterval(minutes * 60)
+            } onLocked: {
+                showingPaywall = true
+            }
+
+            DurationRow(
+                label: "Long Break",
+                minutes: Int(timerService.longBreakDuration / 60),
+                isPremium: store.isPremium
+            ) { minutes in
+                timerService.longBreakDuration = TimeInterval(minutes * 60)
+            } onLocked: {
+                showingPaywall = true
+            }
         } header: {
             Text("Timer Durations")
         } footer: {
-            Text("Custom durations are available with Focal Premium.")
+            if !store.isPremium {
+                Text("Custom durations are available with Focal Premium.")
+            }
         }
     }
+
 
     // MARK: - Behavior (Premium)
 
@@ -51,11 +85,19 @@ struct SettingsView: View {
             HStack {
                 Text("Auto-start next session")
                 Spacer()
-                ProLabel()
-                Toggle("", isOn: .constant(false))
-                    .labelsHidden()
-                    .disabled(true)
+                if !store.isPremium { ProLabel() }
+                Toggle("", isOn: store.isPremium
+                    ? Binding(
+                        get: { timerService.autoStartNextSession },
+                        set: { timerService.autoStartNextSession = $0 }
+                    )
+                    : .constant(false)
+                )
+                .labelsHidden()
+                .disabled(!store.isPremium)
             }
+            .contentShape(Rectangle())
+            .onTapGesture { if !store.isPremium { showingPaywall = true } }
         }
     }
 
@@ -97,14 +139,27 @@ struct SettingsView: View {
 private struct DurationRow: View {
     let label: String
     let minutes: Int
+    let isPremium: Bool
+    let onChanged: (Int) -> Void
+    let onLocked: () -> Void
 
     var body: some View {
         HStack {
             Text(label)
             Spacer()
-            Text("\(minutes) min").foregroundStyle(.secondary)
-            ProLabel()
+            if isPremium {
+                Stepper("\(minutes) min", value: Binding(
+                    get: { minutes },
+                    set: { onChanged($0) }
+                ), in: 1...60)
+                .fixedSize()
+            } else {
+                Text("\(minutes) min").foregroundStyle(.secondary)
+                ProLabel()
+            }
         }
+        .contentShape(Rectangle())
+        .onTapGesture { if !isPremium { onLocked() } }
     }
 }
 
@@ -122,6 +177,8 @@ private struct ProLabel: View {
 
 private struct SoundPickerSheet: View {
     let audio: AudioManager
+    let isPremium: Bool
+    let onUpgradeTapped: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -133,13 +190,19 @@ private struct SoundPickerSheet: View {
 
             ForEach(AudioManager.Sound.allCases) { sound in
                 Button {
-                    sound == audio.currentSound ? audio.stop() : audio.play(sound)
+                    if sound.isPremium && !isPremium {
+                        onUpgradeTapped()
+                    } else if sound == audio.currentSound {
+                        audio.stop()
+                    } else {
+                        audio.play(sound)
+                    }
                 } label: {
                     HStack {
                         Image(systemName: sound.systemImage).frame(width: 28)
                         Text(sound.rawValue)
                         Spacer()
-                        if sound.isPremium {
+                        if sound.isPremium && !isPremium {
                             Text("PRO")
                                 .font(.caption2)
                                 .fontWeight(.semibold)
@@ -152,12 +215,11 @@ private struct SoundPickerSheet: View {
                             Image(systemName: "checkmark").foregroundStyle(.primary)
                         }
                     }
-                    .foregroundStyle(sound.isPremium ? .secondary : .primary)
+                    .foregroundStyle(sound.isPremium && !isPremium ? .secondary : .primary)
                     .padding(.horizontal)
                     .padding(.vertical, 12)
                 }
                 .buttonStyle(.plain)
-                .disabled(sound.isPremium)
             }
         }
     }
@@ -167,4 +229,5 @@ private struct SoundPickerSheet: View {
     SettingsView()
         .environment(TimerService())
         .environment(AudioManager())
+        .environment(StoreManager())
 }

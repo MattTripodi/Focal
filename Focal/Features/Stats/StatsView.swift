@@ -11,6 +11,8 @@ import SwiftData
 struct StatsView: View {
     @Query private var sessions: [FocusSession]
     @State private var viewModel = StatsViewModel()
+    @Environment(StoreManager.self) private var store
+    @State private var showingPaywall = false
 
     var body: some View {
         NavigationStack {
@@ -27,6 +29,10 @@ struct StatsView: View {
         }
         .onAppear { viewModel.update(with: sessions) }
         .onChange(of: sessions) { _, new in viewModel.update(with: new) }
+        .sheet(isPresented: $showingPaywall) {
+            PaywallView()
+                .environment(store)
+        }
     }
 
     // MARK: - Today (Free)
@@ -44,25 +50,27 @@ struct StatsView: View {
     // MARK: - Weekly (Premium)
 
     private var weeklyCard: some View {
-        StatCard(title: "This Week", isPremium: true) {
+        StatCard(title: "This Week", isPremium: !store.isPremium) {
             WeeklyBarChart(data: viewModel.weeklyData)
                 .frame(height: 80)
-                .blur(radius: 4)
-                .overlay(LockOverlay())
+                .blur(radius: store.isPremium ? 0 : 4)
+                .overlay { if !store.isPremium { LockOverlay() } }
+                .onTapGesture { if !store.isPremium { showingPaywall = true } }
         }
     }
 
     // MARK: - All Time (Premium)
 
     private var allTimeCard: some View {
-        StatCard(title: "All Time", isPremium: true) {
+        StatCard(title: "All Time", isPremium: !store.isPremium) {
             HStack(spacing: 0) {
                 StatTile(value: "\(viewModel.totalSessions)", label: "Total Sessions")
                 Divider().frame(height: 44)
                 StatTile(value: "\(viewModel.currentStreak)", label: "Day Streak")
             }
-            .blur(radius: 4)
-            .overlay(LockOverlay())
+            .blur(radius: store.isPremium ? 0 : 4)
+            .overlay { if !store.isPremium { LockOverlay() } }
+            .onTapGesture { if !store.isPremium { showingPaywall = true } }
         }
     }
 }
@@ -153,5 +161,6 @@ private struct ProLabel: View {
 
 #Preview {
     StatsView()
+        .environment(StoreManager())
         .modelContainer(ModelContainer.focal)
 }

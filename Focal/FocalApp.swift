@@ -18,6 +18,7 @@ struct FocalApp: App {
                 .environment(env.timerService)
                 .environment(env.notificationManager)
                 .environment(env.audioManager)
+                .environment(env.storeManager)
                 .task {
                     // Request notification permission on first launch
                     await env.notificationManager.requestPermissionIfNeeded()

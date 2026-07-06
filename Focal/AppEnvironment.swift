@@ -17,6 +17,7 @@ final class AppEnvironment {
     let timerService        = TimerService()
     let notificationManager = NotificationManager()
     let audioManager        = AudioManager()
+    let storeManager = StoreManager()
 
     init() {
         wireCallbacks()

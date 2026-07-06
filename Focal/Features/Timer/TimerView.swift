@@ -11,6 +11,8 @@ struct TimerView: View {
     @Environment(TimerService.self) private var timer
     @Environment(AudioManager.self) private var audio
     @State private var showingSoundPicker = false
+    @Environment(StoreManager.self) private var store
+    @State private var showingPaywall = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -97,9 +99,16 @@ struct TimerView: View {
             }
             .buttonStyle(.plain)
             .sheet(isPresented: $showingSoundPicker) {
-                SoundPickerSheet(audio: audio)
-                    .presentationDetents([.height(320)])
-                    .presentationDragIndicator(.visible)
+                SoundPickerSheet(audio: audio, isPremium: store.isPremium) {
+                    showingSoundPicker = false
+                    showingPaywall = true
+                }
+                .presentationDetents([.height(320)])
+                .presentationDragIndicator(.visible)
+            }
+            .sheet(isPresented: $showingPaywall) {
+                PaywallView()
+                    .environment(store)
             }
 
             Spacer().frame(height: 52)
@@ -164,6 +173,8 @@ private struct TimerControlButton: View {
 
 private struct SoundPickerSheet: View {
     let audio: AudioManager
+    let isPremium: Bool
+    let onUpgradeTapped: () -> Void
 
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
@@ -174,41 +185,37 @@ private struct SoundPickerSheet: View {
                 .padding(.bottom, 16)
 
             ForEach(AudioManager.Sound.allCases) { sound in
-                // Premium sounds are visible but disabled until Day 4 paywall
                 Button {
-                    if sound == audio.currentSound {
+                    if sound.isPremium && !isPremium {
+                        onUpgradeTapped()
+                    } else if sound == audio.currentSound {
                         audio.stop()
                     } else {
                         audio.play(sound)
                     }
                 } label: {
                     HStack {
-                        Image(systemName: sound.systemImage)
-                            .frame(width: 28)
+                        Image(systemName: sound.systemImage).frame(width: 28)
                         Text(sound.rawValue)
                         Spacer()
-                        if sound.isPremium {
+                        if sound.isPremium && !isPremium {
                             Text("PRO")
                                 .font(.caption2)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.secondary)
                                 .padding(.horizontal, 6)
                                 .padding(.vertical, 2)
-                                .overlay(
-                                    Capsule().stroke(Color.secondary.opacity(0.4))
-                                )
+                                .overlay(Capsule().stroke(Color.secondary.opacity(0.4)))
                         }
                         if sound == audio.currentSound {
-                            Image(systemName: "checkmark")
-                                .foregroundStyle(.primary)
+                            Image(systemName: "checkmark").foregroundStyle(.primary)
                         }
                     }
-                    .foregroundStyle(sound.isPremium ? .secondary : .primary)
+                    .foregroundStyle(sound.isPremium && !isPremium ? .secondary : .primary)
                     .padding(.horizontal)
                     .padding(.vertical, 12)
                 }
                 .buttonStyle(.plain)
-                .disabled(sound.isPremium) // gates open on Day 4
             }
         }
     }
@@ -219,4 +226,6 @@ private struct SoundPickerSheet: View {
 #Preview {
     TimerView()
         .environment(TimerService())
+        .environment(AudioManager())
+        .environment(StoreManager())
 }
