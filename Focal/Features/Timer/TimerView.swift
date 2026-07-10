@@ -13,6 +13,7 @@ struct TimerView: View {
     @State private var showingSoundPicker = false
     @Environment(StoreManager.self) private var store
     @State private var showingPaywall = false
+    private let impact = UIImpactFeedbackGenerator(style: .medium)
 
     var body: some View {
         VStack(spacing: 0) {
@@ -24,6 +25,8 @@ struct TimerView: View {
                 .fontWeight(.semibold)
                 .kerning(2)
                 .foregroundStyle(.secondary)
+                .contentTransition(.opacity)
+                .animation(.easeInOut(duration: 0.3), value: timer.phase.rawValue)
 
             Spacer().frame(height: 40)
 
@@ -73,6 +76,7 @@ struct TimerView: View {
                     systemImage: timer.timerState == .running ? "pause.fill" : "play.fill",
                     size: .primary
                 ) {
+                    impact.impactOccurred()
                     timer.timerState == .running ? timer.pause() : timer.start()
                 }
 
@@ -166,58 +170,6 @@ private struct TimerControlButton: View {
             }
         }
         .buttonStyle(.plain)
-    }
-}
-
-// MARK: - Sound Picker Sheet
-
-private struct SoundPickerSheet: View {
-    let audio: AudioManager
-    let isPremium: Bool
-    let onUpgradeTapped: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Ambient Sound")
-                .font(.headline)
-                .padding(.horizontal)
-                .padding(.top, 24)
-                .padding(.bottom, 16)
-
-            ForEach(AudioManager.Sound.allCases) { sound in
-                Button {
-                    if sound.isPremium && !isPremium {
-                        onUpgradeTapped()
-                    } else if sound == audio.currentSound {
-                        audio.stop()
-                    } else {
-                        audio.play(sound)
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: sound.systemImage).frame(width: 28)
-                        Text(sound.rawValue)
-                        Spacer()
-                        if sound.isPremium && !isPremium {
-                            Text("PRO")
-                                .font(.caption2)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .overlay(Capsule().stroke(Color.secondary.opacity(0.4)))
-                        }
-                        if sound == audio.currentSound {
-                            Image(systemName: "checkmark").foregroundStyle(.primary)
-                        }
-                    }
-                    .foregroundStyle(sound.isPremium && !isPremium ? .secondary : .primary)
-                    .padding(.horizontal)
-                    .padding(.vertical, 12)
-                }
-                .buttonStyle(.plain)
-            }
-        }
     }
 }
 

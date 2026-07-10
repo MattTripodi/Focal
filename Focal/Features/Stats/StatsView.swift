@@ -89,7 +89,7 @@ private struct StatCard<Content: View>: View {
                     .font(.subheadline)
                     .fontWeight(.semibold)
                     .foregroundStyle(.secondary)
-                if isPremium { ProLabel() }
+                if isPremium { ProBadge() }
             }
             content
         }
@@ -144,18 +144,6 @@ private struct LockOverlay: View {
             Text("Unlock Premium").font(.caption).fontWeight(.medium)
         }
         .foregroundStyle(.primary)
-    }
-}
-
-private struct ProLabel: View {
-    var body: some View {
-        Text("PRO")
-            .font(.caption2)
-            .fontWeight(.semibold)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .overlay(Capsule().stroke(Color.secondary.opacity(0.4)))
     }
 }
 

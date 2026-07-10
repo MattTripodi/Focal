@@ -11,21 +11,17 @@ import SwiftData
 struct ContentView: View {
     @Environment(TimerService.self) private var timerService
     @Environment(\.modelContext) private var modelContext
+    @AppStorage("focal.hasCompletedOnboarding") private var hasCompletedOnboarding = false
 
     var body: some View {
-        TabView {
-            TimerView()
-                .tabItem { Label("Timer", systemImage: "timer") }
-
-            StatsView()
-                .tabItem { Label("Stats", systemImage: "chart.bar") }
-
-            SettingsView()
-                .tabItem { Label("Settings", systemImage: "gearshape") }
+        Group {
+            if hasCompletedOnboarding {
+                mainTabs
+            } else {
+                OnboardingView(hasCompletedOnboarding: $hasCompletedOnboarding)
+            }
         }
-        .tint(.primary)
         .task {
-            // Wire session saving now that we have modelContext
             timerService.onPhaseComplete = { phase in
                 let session = FocusSession(
                     duration: timerService.workDuration,
@@ -35,6 +31,18 @@ struct ContentView: View {
             }
         }
     }
+
+    private var mainTabs: some View {
+        TabView {
+            TimerView()
+                .tabItem { Label("Timer", systemImage: "timer") }
+            StatsView()
+                .tabItem { Label("Stats", systemImage: "chart.bar") }
+            SettingsView()
+                .tabItem { Label("Settings", systemImage: "gearshape") }
+        }
+        .tint(.primary)
+    }
 }
 
 #Preview {
@@ -42,5 +50,6 @@ struct ContentView: View {
         .environment(TimerService())
         .environment(NotificationManager())
         .environment(AudioManager())
+        .environment(StoreManager())
         .modelContainer(ModelContainer.focal)
 }

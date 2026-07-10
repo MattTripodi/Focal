@@ -13,7 +13,7 @@ struct SettingsView: View {
     @State private var showingSoundPicker = false
     @Environment(StoreManager.self) private var store
     @State private var showingPaywall = false
-
+    
     var body: some View {
         NavigationStack {
             List {
@@ -33,10 +33,14 @@ struct SettingsView: View {
             .presentationDetents([.height(320)])
             .presentationDragIndicator(.visible)
         }
+        .sheet(isPresented: $showingPaywall) {
+            PaywallView()
+                .environment(store)
+        }
     }
-
+    
     // MARK: - Timer Durations (Premium)
-
+    
     private var timerSection: some View {
         Section {
             DurationRow(
@@ -48,7 +52,7 @@ struct SettingsView: View {
             } onLocked: {
                 showingPaywall = true
             }
-
+            
             DurationRow(
                 label: "Short Break",
                 minutes: Int(timerService.shortBreakDuration / 60),
@@ -58,7 +62,7 @@ struct SettingsView: View {
             } onLocked: {
                 showingPaywall = true
             }
-
+            
             DurationRow(
                 label: "Long Break",
                 minutes: Int(timerService.longBreakDuration / 60),
@@ -68,41 +72,58 @@ struct SettingsView: View {
             } onLocked: {
                 showingPaywall = true
             }
+            
+            //sessions per cycle row
+            SessionsPerCycleRow(
+                value: timerService.sessionsPerCycle,
+                isPremium: store.isPremium
+            ) { count in
+                timerService.sessionsPerCycle = count
+            } onLocked: {
+                showingPaywall = true
+            }
+            
         } header: {
             Text("Timer Durations")
         } footer: {
             if !store.isPremium {
-                Text("Custom durations are available with Focal Premium.")
+                Text("Custom durations and session counts are available with Focal Premium.")
+            } else {
+                Text("Sessions per cycle determines how many focus sessions before a long break.")
             }
         }
     }
-
-
+    
+    
     // MARK: - Behavior (Premium)
-
+    
     private var behaviorSection: some View {
         Section("Behavior") {
-            HStack {
-                Text("Auto-start next session")
-                Spacer()
-                if !store.isPremium { ProLabel() }
-                Toggle("", isOn: store.isPremium
-                    ? Binding(
-                        get: { timerService.autoStartNextSession },
-                        set: { timerService.autoStartNextSession = $0 }
-                    )
-                    : .constant(false)
-                )
-                .labelsHidden()
-                .disabled(!store.isPremium)
+            if store.isPremium {
+                Toggle(isOn: Binding(
+                    get: { timerService.autoStartNextSession },
+                    set: { timerService.autoStartNextSession = $0 }
+                )) {
+                    Text("Auto-start next session")
+                }
+            } else {
+                Button(action: { showingPaywall = true }) {
+                    HStack {
+                        Text("Auto-start next session")
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        ProBadge()
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.tertiary)
+                    }
+                }
             }
-            .contentShape(Rectangle())
-            .onTapGesture { if !store.isPremium { showingPaywall = true } }
         }
     }
-
+    
     // MARK: - Sound
-
+    
     private var soundSection: some View {
         Section("Sound") {
             Button {
@@ -119,9 +140,9 @@ struct SettingsView: View {
             }
         }
     }
-
+    
     // MARK: - About
-
+    
     private var aboutSection: some View {
         Section("About") {
             HStack {
@@ -129,6 +150,13 @@ struct SettingsView: View {
                 Spacer()
                 Text(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0")
                     .foregroundStyle(.secondary)
+                
+#if DEBUG
+                Button("Reset Premium (Debug)") {
+                    Task { await store.restorePurchases() }
+                }
+                .foregroundStyle(.red)
+#endif
             }
         }
     }
@@ -142,84 +170,62 @@ private struct DurationRow: View {
     let isPremium: Bool
     let onChanged: (Int) -> Void
     let onLocked: () -> Void
-
+    
     var body: some View {
-        HStack {
-            Text(label)
-            Spacer()
-            if isPremium {
-                Stepper("\(minutes) min", value: Binding(
-                    get: { minutes },
-                    set: { onChanged($0) }
-                ), in: 1...60)
+        if isPremium {
+            HStack {
+                Text(label)
+                Spacer()
+                Stepper(
+                    "\(minutes) min",
+                    value: Binding(get: { minutes }, set: { onChanged($0) }),
+                    in: 1...60
+                )
                 .fixedSize()
-            } else {
-                Text("\(minutes) min").foregroundStyle(.secondary)
-                ProLabel()
+            }
+        } else {
+            Button(action: onLocked) {
+                HStack {
+                    Text(label)
+                        .foregroundStyle(.primary)
+                    Spacer()
+                    Text("\(minutes) min")
+                        .foregroundStyle(.secondary)
+                    ProBadge()
+                }
             }
         }
-        .contentShape(Rectangle())
-        .onTapGesture { if !isPremium { onLocked() } }
     }
 }
 
-private struct ProLabel: View {
-    var body: some View {
-        Text("PRO")
-            .font(.caption2)
-            .fontWeight(.semibold)
-            .foregroundStyle(.secondary)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
-            .overlay(Capsule().stroke(Color.secondary.opacity(0.4)))
-    }
-}
-
-private struct SoundPickerSheet: View {
-    let audio: AudioManager
+private struct SessionsPerCycleRow: View {
+    let value: Int
     let isPremium: Bool
-    let onUpgradeTapped: () -> Void
+    let onChanged: (Int) -> Void
+    let onLocked: () -> Void
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 0) {
-            Text("Ambient Sound")
-                .font(.headline)
-                .padding(.horizontal)
-                .padding(.top, 24)
-                .padding(.bottom, 16)
-
-            ForEach(AudioManager.Sound.allCases) { sound in
-                Button {
-                    if sound.isPremium && !isPremium {
-                        onUpgradeTapped()
-                    } else if sound == audio.currentSound {
-                        audio.stop()
-                    } else {
-                        audio.play(sound)
-                    }
-                } label: {
-                    HStack {
-                        Image(systemName: sound.systemImage).frame(width: 28)
-                        Text(sound.rawValue)
-                        Spacer()
-                        if sound.isPremium && !isPremium {
-                            Text("PRO")
-                                .font(.caption2)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.secondary)
-                                .padding(.horizontal, 6)
-                                .padding(.vertical, 2)
-                                .overlay(Capsule().stroke(Color.secondary.opacity(0.4)))
-                        }
-                        if sound == audio.currentSound {
-                            Image(systemName: "checkmark").foregroundStyle(.primary)
-                        }
-                    }
-                    .foregroundStyle(sound.isPremium && !isPremium ? .secondary : .primary)
-                    .padding(.horizontal)
-                    .padding(.vertical, 12)
+        if isPremium {
+            HStack {
+                Text("Sessions per cycle")
+                Spacer()
+                Stepper(
+                    "\(value) session\(value == 1 ? "" : "s")",
+                    value: Binding(get: { value }, set: { onChanged($0) }),
+                    in: 2...8
+                )
+                .fixedSize()
+            }
+        } else {
+            Button(action: onLocked) {
+                HStack {
+                    Text("Sessions per cycle")
+                        .foregroundStyle(.primary)
+                    Spacer()
+                    Text("\(value) session\(value == 1 ? "" : "s")")
+                        .foregroundStyle(.secondary)
+                    ProBadge()
                 }
-                .buttonStyle(.plain)
             }
         }
     }

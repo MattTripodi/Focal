@@ -11,14 +11,14 @@ import Observation
 @Observable
 @MainActor
 final class TimerService {
-
+    
     // MARK: - Types
-
+    
     enum Phase: String {
         case work       = "Focus"
         case shortBreak = "Short Break"
         case longBreak  = "Long Break"
-
+        
         var systemImage: String {
             switch self {
             case .work:        return "brain.head.profile"
@@ -27,85 +27,100 @@ final class TimerService {
             }
         }
     }
-
+    
     enum TimerState {
         case idle, running, paused
     }
-
+    
     // MARK: - Observable State
-
+    
     private(set) var phase: Phase = .work
     private(set) var timerState: TimerState = .idle
     private(set) var timeRemaining: TimeInterval = 25 * 60
-
+    
     /// How many work sessions completed in the current 4-round cycle.
     private(set) var currentCycleRounds: Int = 0
-
+    
     /// Running total of work sessions completed today.
     private(set) var completedSessionsToday: Int = 0
-
+    
     // MARK: - Settings (premium will override these later)
-
+    
     var workDuration: TimeInterval = {
         let v = UserDefaults.standard.double(forKey: "focal.workDuration")
         return v > 0 ? v : 25 * 60
     }() {
         didSet { UserDefaults.standard.set(workDuration, forKey: "focal.workDuration") }
     }
-
+    
     var shortBreakDuration: TimeInterval = {
         let v = UserDefaults.standard.double(forKey: "focal.shortBreakDuration")
         return v > 0 ? v : 5 * 60
     }() {
         didSet { UserDefaults.standard.set(shortBreakDuration, forKey: "focal.shortBreakDuration") }
     }
-
+    
     var longBreakDuration: TimeInterval = {
         let v = UserDefaults.standard.double(forKey: "focal.longBreakDuration")
         return v > 0 ? v : 15 * 60
     }() {
         didSet { UserDefaults.standard.set(longBreakDuration, forKey: "focal.longBreakDuration") }
     }
-
+    
     // Add after longBreakDuration:
     var autoStartNextSession: Bool = UserDefaults.standard.bool(forKey: "focal.autoStart") {
         didSet { UserDefaults.standard.set(autoStartNextSession, forKey: "focal.autoStart") }
     }
     
-    let sessionsPerCycle: Int = 4
-
+    var sessionsPerCycle: Int = {
+        let v = UserDefaults.standard.integer(forKey: "focal.sessionsPerCycle")
+        return v > 0 ? v : 4
+    }() {
+        didSet {
+            UserDefaults.standard.set(sessionsPerCycle, forKey: "focal.sessionsPerCycle")
+            // If current rounds exceed the new cycle length, clamp to avoid
+            // being stuck in a state that never triggers a long break
+            if currentCycleRounds >= sessionsPerCycle {
+                currentCycleRounds = sessionsPerCycle - 1
+            }
+            // Notify widget immediately so dot count reflects the change
+            // without requiring a timer interaction
+            onWidgetNeedsUpdate?()
+        }
+    }
+    
     // MARK: - Callbacks
-
+    
     /// Fires when a work session completes naturally. Wire to SwiftData save on Day 2.
     var onPhaseComplete: ((Phase) -> Void)?
     
     /// Fires when the timer starts running. Use to schedule a notification.
     var onTimerStarted: ((Phase, TimeInterval) -> Void)?
-
+    
     /// Fires on pause, reset, or skip. Use to cancel pending notifications.
     var onTimerPausedOrReset: (() -> Void)?
     
     /// Fires on any state change that the widget should reflect.
     var onWidgetNeedsUpdate: (() -> Void)?
-
+    
     // MARK: - Private
-
+    
     private var timerTask: Task<Void, Never>?
-
+    
     // MARK: - Computed
-
+    
     var progress: Double {
         let total = currentPhaseDuration
         guard total > 0 else { return 0 }
         return 1.0 - (timeRemaining / total)
     }
-
+    
     var timeRemainingFormatted: String {
         let m = Int(timeRemaining) / 60
         let s = Int(timeRemaining) % 60
         return String(format: "%02d:%02d", m, s)
     }
-
+    
     private var currentPhaseDuration: TimeInterval {
         switch phase {
         case .work:        return workDuration
@@ -113,9 +128,9 @@ final class TimerService {
         case .longBreak:   return longBreakDuration
         }
     }
-
+    
     // MARK: - Public Interface
-
+    
     func start() {
         guard timerState != .running else { return }
         timerState = .running
@@ -123,7 +138,7 @@ final class TimerService {
         onTimerStarted?(phase, timeRemaining)
         startTicking()
     }
-
+    
     func pause() {
         guard timerState == .running else { return }
         timerState = .paused
@@ -132,7 +147,7 @@ final class TimerService {
         onWidgetNeedsUpdate?()
         onTimerPausedOrReset?()
     }
-
+    
     func reset() {
         timerTask?.cancel()
         timerTask = nil
@@ -141,44 +156,47 @@ final class TimerService {
         timeRemaining = currentPhaseDuration
         onTimerPausedOrReset?()
     }
-
+    
     /// Skips the current phase without counting it as a completed session.
     func skip() {
         onTimerPausedOrReset?()
         advancePhase(sessionCompleted: false)
     }
-
+    
     // MARK: - Private
-
+    
     private func startTicking() {
         timerTask = Task {
             while !Task.isCancelled {
                 try? await Task.sleep(for: .seconds(1))
                 guard !Task.isCancelled else { break }
-
+                
                 if timeRemaining > 1 {
                     timeRemaining -= 1
                 } else {
+                    // Set to 0 first so the ring renders fully complete
                     timeRemaining = 0
+                    try? await Task.sleep(for: .milliseconds(1100))
+                    guard !Task.isCancelled else { break }
                     advancePhase(sessionCompleted: true)
                     break
                 }
             }
         }
     }
-
+    
     private func advancePhase(sessionCompleted: Bool) {
         timerTask?.cancel()
         timerTask = nil
-
+        
         let completedPhase = phase
-
+        
         if sessionCompleted && completedPhase == .work {
             currentCycleRounds += 1
             completedSessionsToday += 1
             onPhaseComplete?(.work)
         }
-
+        
         // Determine next phase
         switch completedPhase {
         case .work:
@@ -189,7 +207,7 @@ final class TimerService {
             currentCycleRounds = 0
             phase = .work
         }
-
+        
         timeRemaining = currentPhaseDuration
         timerState = .idle
         if autoStartNextSession {

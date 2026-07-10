@@ -15,6 +15,9 @@
 		344D30752FFB567800BFCBA6 /* WidgetTimerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */; };
 		344D30762FFB568E00BFCBA6 /* WidgetTimerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */; };
 		344D30782FFB56D700BFCBA6 /* WidgetDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30772FFB56D700BFCBA6 /* WidgetDataManager.swift */; };
+		344D307C2FFCA06900BFCBA6 /* ProBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D307B2FFCA06900BFCBA6 /* ProBadge.swift */; };
+		344D30842FFCA25600BFCBA6 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30822FFCA25600BFCBA6 /* OnboardingView.swift */; };
+		344D30863000942700BFCBA6 /* SoundPickerSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 344D30853000942700BFCBA6 /* SoundPickerSheet.swift */; };
 		346735CD2FDCF6F900FF1220 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 346735CA2FDCF6F900FF1220 /* Assets.xcassets */; };
 		346735CE2FDCF6F900FF1220 /* FocalApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 346735CB2FDCF6F900FF1220 /* FocalApp.swift */; };
 		346735E02FDCF8A300FF1220 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 346735DF2FDCF8A300FF1220 /* WidgetKit.framework */; };
@@ -70,6 +73,9 @@
 		344D30712FFB358200BFCBA6 /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
 		344D30742FFB567800BFCBA6 /* WidgetTimerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTimerData.swift; sourceTree = "<group>"; };
 		344D30772FFB56D700BFCBA6 /* WidgetDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetDataManager.swift; sourceTree = "<group>"; };
+		344D307B2FFCA06900BFCBA6 /* ProBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProBadge.swift; sourceTree = "<group>"; };
+		344D30822FFCA25600BFCBA6 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		344D30853000942700BFCBA6 /* SoundPickerSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundPickerSheet.swift; sourceTree = "<group>"; };
 		346735CA2FDCF6F900FF1220 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		346735CB2FDCF6F900FF1220 /* FocalApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocalApp.swift; sourceTree = "<group>"; };
 		346735D72FDCF80A00FF1220 /* Focal.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Focal.entitlements; sourceTree = "<group>"; };
@@ -165,9 +171,18 @@
 			path = Shared;
 			sourceTree = "<group>";
 		};
+		344D30832FFCA25600BFCBA6 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				344D30822FFCA25600BFCBA6 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
 		346735C92FDCF6D700FF1220 /* Features */ = {
 			isa = PBXGroup;
 			children = (
+				344D30832FFCA25600BFCBA6 /* Onboarding */,
 				346735D22FDCF75C00FF1220 /* Timer */,
 				346735D32FDCF76300FF1220 /* Stats */,
 				346735D42FDCF76D00FF1220 /* Settings */,
@@ -263,6 +278,8 @@
 		346735D62FDCF79000FF1220 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				344D307B2FFCA06900BFCBA6 /* ProBadge.swift */,
+				344D30853000942700BFCBA6 /* SoundPickerSheet.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -398,12 +415,15 @@
 				3428D5972FF0D42200A78DA1 /* ModelContainer+Focal.swift in Sources */,
 				3428D5932FF0D1EA00A78DA1 /* TimerService.swift in Sources */,
 				344D30722FFB358200BFCBA6 /* PaywallView.swift in Sources */,
+				344D30863000942700BFCBA6 /* SoundPickerSheet.swift in Sources */,
 				34B2F64B2FF4C192009DE650 /* ContentView.swift in Sources */,
 				344D30702FFB351D00BFCBA6 /* StoreManager.swift in Sources */,
+				344D30842FFCA25600BFCBA6 /* OnboardingView.swift in Sources */,
 				34B2F63F2FF4B92E009DE650 /* AppEnvironment.swift in Sources */,
 				344D30782FFB56D700BFCBA6 /* WidgetDataManager.swift in Sources */,
 				344D30752FFB567800BFCBA6 /* WidgetTimerData.swift in Sources */,
 				34B2F6512FF4C276009DE650 /* SettingsView.swift in Sources */,
+				344D307C2FFCA06900BFCBA6 /* ProBadge.swift in Sources */,
 				3428D5952FF0D2E300A78DA1 /* TimerView.swift in Sources */,
 				346735FA2FDD024300FF1220 /* FocusSession.swift in Sources */,
 			);
