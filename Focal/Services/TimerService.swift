@@ -215,3 +215,43 @@ final class TimerService {
         }
     }
 }
+
+// MARK: - Debug / Screenshot Staging
+
+#if DEBUG
+extension TimerService {
+
+    func stageForScreenshot(_ scenario: ScreenshotScenario) {
+        timerTask?.cancel()
+        timerTask = nil
+
+        switch scenario {
+
+        case .timerRunning:
+            phase              = .work
+            timeRemaining      = 18 * 60 + 32
+            currentCycleRounds = 2
+            timerState         = .running
+            startTicking()
+
+        case .timerIdleThreeDots:
+            phase              = .work
+            timeRemaining      = workDuration
+            currentCycleRounds = 3
+            timerState         = .idle
+
+        case .reset:
+            phase              = .work
+            timeRemaining      = workDuration
+            currentCycleRounds = 0
+            timerState         = .idle
+        }
+    }
+
+    enum ScreenshotScenario {
+        case timerRunning
+        case timerIdleThreeDots
+        case reset
+    }
+}
+#endif

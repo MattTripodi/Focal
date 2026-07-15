@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct SettingsView: View {
     @Environment(TimerService.self) private var timerService
     @Environment(AudioManager.self) private var audio
-    @State private var showingSoundPicker = false
     @Environment(StoreManager.self) private var store
+    @Environment(\.modelContext) private var modelContext
+    @State private var showingSoundPicker = false
     @State private var showingPaywall = false
     
     var body: some View {
@@ -156,10 +158,47 @@ struct SettingsView: View {
                     Task { await store.restorePurchases() }
                 }
                 .foregroundStyle(.red)
+                
+                Button("Seed Stats (Debug)") {
+                    seedStatsData()
+                }
+                .foregroundStyle(.blue)
 #endif
             }
         }
     }
+    
+#if DEBUG
+    private func seedStatsData() {
+        let calendar = Calendar.current
+        let durations: [TimeInterval] = [
+            25 * 60, 25 * 60, 25 * 60,  // today — 3 sessions
+            25 * 60, 25 * 60,            // yesterday — 2 sessions
+            25 * 60, 25 * 60, 25 * 60,  // 2 days ago — 3 sessions
+            25 * 60,                      // 3 days ago — 1 session
+            25 * 60, 25 * 60,            // 4 days ago — 2 sessions
+        ]
+        
+        let offsets = [0, 0, 0, -1, -1, -2, -2, -2, -3, -4, -4]
+        
+        for (i, duration) in durations.enumerated() {
+            let date = calendar.date(
+                byAdding: .day,
+                value: offsets[i],
+                to: calendar.startOfDay(for: .now).addingTimeInterval(12 * 3600)
+            ) ?? .now
+            
+            let session = FocusSession(
+                startDate: date,
+                duration: duration,
+                phase: "Focus",
+                completed: true
+            )
+            modelContext.insert(session)
+        }
+    }
+#endif
+    
 }
 
 // MARK: - Subviews
@@ -203,7 +242,7 @@ private struct SessionsPerCycleRow: View {
     let isPremium: Bool
     let onChanged: (Int) -> Void
     let onLocked: () -> Void
-
+    
     var body: some View {
         if isPremium {
             HStack {

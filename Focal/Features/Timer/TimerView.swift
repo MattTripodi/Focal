@@ -14,11 +14,11 @@ struct TimerView: View {
     @Environment(StoreManager.self) private var store
     @State private var showingPaywall = false
     private let impact = UIImpactFeedbackGenerator(style: .medium)
-
+    
     var body: some View {
         VStack(spacing: 0) {
             Spacer()
-
+            
             // Phase label
             Text(timer.phase.rawValue.uppercased())
                 .font(.caption)
@@ -27,43 +27,54 @@ struct TimerView: View {
                 .foregroundStyle(.secondary)
                 .contentTransition(.opacity)
                 .animation(.easeInOut(duration: 0.3), value: timer.phase.rawValue)
-
+            
             Spacer().frame(height: 40)
-
+            
             // Timer ring
             ZStack {
                 Circle()
                     .stroke(Color.primary.opacity(0.08), lineWidth: 10)
-
+                
                 Circle()
                     .trim(from: 0, to: timer.progress)
                     .stroke(Color.primary, style: StrokeStyle(lineWidth: 10, lineCap: .round))
                     .rotationEffect(.degrees(-90))
                     .animation(.linear(duration: 1), value: timer.progress)
-
+                
                 VStack(spacing: 6) {
                     Text(timer.timeRemainingFormatted)
                         .font(.system(size: 58, weight: .thin, design: .monospaced))
                         .monospacedDigit()
                         .contentTransition(.numericText())
-
+                    
                     Image(systemName: timer.phase.systemImage)
                         .font(.callout)
                         .foregroundStyle(.secondary)
                 }
             }
             .frame(width: 270, height: 270)
-
+#if DEBUG
+            .onTapGesture(count: 3) {
+                if timer.currentCycleRounds == 0 {
+                    timer.stageForScreenshot(.timerRunning)
+                } else if timer.currentCycleRounds == 2 {
+                    timer.stageForScreenshot(.timerIdleThreeDots)
+                } else {
+                    timer.stageForScreenshot(.reset)
+                }
+            }
+#endif
+            
             Spacer().frame(height: 40)
-
+            
             // Cycle dots
             CycleDotsView(
                 completed: timer.currentCycleRounds,
                 total: timer.sessionsPerCycle
             )
-
+            
             Spacer()
-
+            
             // Controls
             HStack(spacing: 44) {
                 TimerControlButton(systemImage: "arrow.counterclockwise", size: .secondary) {
@@ -71,7 +82,7 @@ struct TimerView: View {
                 }
                 .opacity(timer.timerState == .idle ? 0.2 : 1)
                 .disabled(timer.timerState == .idle)
-
+                
                 TimerControlButton(
                     systemImage: timer.timerState == .running ? "pause.fill" : "play.fill",
                     size: .primary
@@ -79,7 +90,7 @@ struct TimerView: View {
                     impact.impactOccurred()
                     timer.timerState == .running ? timer.pause() : timer.start()
                 }
-
+                
                 TimerControlButton(systemImage: "forward.end.fill", size: .secondary) {
                     timer.skip()
                 }
@@ -114,7 +125,7 @@ struct TimerView: View {
                 PaywallView()
                     .environment(store)
             }
-
+            
             Spacer().frame(height: 52)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -127,7 +138,7 @@ struct TimerView: View {
 private struct CycleDotsView: View {
     let completed: Int
     let total: Int
-
+    
     var body: some View {
         HStack(spacing: 10) {
             ForEach(0..<total, id: \.self) { i in
@@ -144,7 +155,7 @@ private struct CycleDotsView: View {
 
 private enum ControlSize {
     case primary, secondary
-
+    
     var frame: CGFloat  { self == .primary ? 72 : 48 }
     var iconFont: Font  { self == .primary ? .title2 : .body }
 }
@@ -153,7 +164,7 @@ private struct TimerControlButton: View {
     let systemImage: String
     let size: ControlSize
     let action: () -> Void
-
+    
     var body: some View {
         Button(action: action) {
             if size == .primary {
