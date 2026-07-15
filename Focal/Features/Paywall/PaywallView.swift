@@ -101,6 +101,11 @@ struct PaywallView: View {
             }
             .padding()
         }
+        .onChange(of: store.isPremium) { _, isPremium in
+            if isPremium {
+                dismiss()
+            }
+        }
     }
 }
 
