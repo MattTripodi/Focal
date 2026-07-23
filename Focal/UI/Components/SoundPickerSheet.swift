@@ -46,6 +46,7 @@ struct SoundPickerSheet: View {
                     .foregroundStyle(sound.isPremium && !isPremium ? .secondary : .primary)
                     .padding(.horizontal)
                     .padding(.vertical, 12)
+                    .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
             }
