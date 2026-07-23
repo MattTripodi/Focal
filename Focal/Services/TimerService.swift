@@ -7,6 +7,7 @@
 
 import Foundation
 import Observation
+import UIKit
 
 @Observable
 @MainActor
@@ -106,6 +107,7 @@ final class TimerService {
     // MARK: - Private
     
     private var timerTask: Task<Void, Never>?
+    private var endDate: Date?
     
     // MARK: - Computed
     
@@ -121,7 +123,7 @@ final class TimerService {
         return String(format: "%02d:%02d", m, s)
     }
     
-    private var currentPhaseDuration: TimeInterval {
+    var currentPhaseDuration: TimeInterval {
         switch phase {
         case .work:        return workDuration
         case .shortBreak:  return shortBreakDuration
@@ -134,8 +136,9 @@ final class TimerService {
     func start() {
         guard timerState != .running else { return }
         timerState = .running
-        onWidgetNeedsUpdate?()
+        endDate = Date.now.addingTimeInterval(timeRemaining)
         onTimerStarted?(phase, timeRemaining)
+        onWidgetNeedsUpdate?()
         startTicking()
     }
     
@@ -144,17 +147,19 @@ final class TimerService {
         timerState = .paused
         timerTask?.cancel()
         timerTask = nil
-        onWidgetNeedsUpdate?()
+        endDate = nil
         onTimerPausedOrReset?()
+        onWidgetNeedsUpdate?()
     }
     
     func reset() {
         timerTask?.cancel()
         timerTask = nil
         timerState = .idle
-        onWidgetNeedsUpdate?()
+        endDate = nil
         timeRemaining = currentPhaseDuration
         onTimerPausedOrReset?()
+        onWidgetNeedsUpdate?()
     }
     
     /// Skips the current phase without counting it as a completed session.
@@ -171,10 +176,13 @@ final class TimerService {
                 try? await Task.sleep(for: .seconds(1))
                 guard !Task.isCancelled else { break }
                 
-                if timeRemaining > 1 {
-                    timeRemaining -= 1
+                guard let end = endDate else { break }
+                let remaining = end.timeIntervalSinceNow
+                
+                if remaining > 0.5 {
+                    // Round for clean display — eliminates fractional second flicker
+                    timeRemaining = remaining.rounded()
                 } else {
-                    // Set to 0 first so the ring renders fully complete
                     timeRemaining = 0
                     try? await Task.sleep(for: .milliseconds(1100))
                     guard !Task.isCancelled else { break }
@@ -188,8 +196,15 @@ final class TimerService {
     private func advancePhase(sessionCompleted: Bool) {
         timerTask?.cancel()
         timerTask = nil
+        endDate = nil
         
         let completedPhase = phase
+        
+        // Haptic feedback on phase completion
+        let haptic = UINotificationFeedbackGenerator()
+        if sessionCompleted {
+            haptic.notificationOccurred(completedPhase == .work ? .success : .warning)
+        }
         
         if sessionCompleted && completedPhase == .work {
             currentCycleRounds += 1
@@ -197,7 +212,6 @@ final class TimerService {
             onPhaseComplete?(.work)
         }
         
-        // Determine next phase
         switch completedPhase {
         case .work:
             phase = currentCycleRounds >= sessionsPerCycle ? .longBreak : .shortBreak
@@ -210,6 +224,8 @@ final class TimerService {
         
         timeRemaining = currentPhaseDuration
         timerState = .idle
+        onWidgetNeedsUpdate?()
+        
         if autoStartNextSession {
             start()
         }
@@ -220,26 +236,26 @@ final class TimerService {
 
 #if DEBUG
 extension TimerService {
-
+    
     func stageForScreenshot(_ scenario: ScreenshotScenario) {
         timerTask?.cancel()
         timerTask = nil
-
+        
         switch scenario {
-
+            
         case .timerRunning:
             phase              = .work
             timeRemaining      = 18 * 60 + 32
             currentCycleRounds = 2
             timerState         = .running
             startTicking()
-
+            
         case .timerIdleThreeDots:
             phase              = .work
             timeRemaining      = workDuration
             currentCycleRounds = 3
             timerState         = .idle
-
+            
         case .reset:
             phase              = .work
             timeRemaining      = workDuration
@@ -247,7 +263,7 @@ extension TimerService {
             timerState         = .idle
         }
     }
-
+    
     enum ScreenshotScenario {
         case timerRunning
         case timerIdleThreeDots

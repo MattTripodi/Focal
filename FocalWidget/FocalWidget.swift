@@ -29,7 +29,6 @@ struct FocalWidgetProvider: TimelineProvider {
 
     func getTimeline(in context: Context, completion: @escaping (Timeline<FocalWidgetEntry>) -> Void) {
         let entry = FocalWidgetEntry(date: .now, data: storedData())
-        // Refresh at most every 15 min; app triggers reloads on state changes
         let nextRefresh = Calendar.current.date(byAdding: .minute, value: 15, to: .now) ?? .now
         completion(Timeline(entries: [entry], policy: .after(nextRefresh)))
     }
@@ -46,21 +45,36 @@ struct FocalWidgetProvider: TimelineProvider {
     }
 }
 
-// MARK: - View
+// MARK: - Root View (routes by family)
 
 struct FocalWidgetEntryView: View {
+    let entry: FocalWidgetEntry
+    @Environment(\.widgetFamily) private var family
+
+    var body: some View {
+        switch family {
+        case .accessoryCircular:
+            CircularWidgetView(entry: entry)
+        case .accessoryRectangular:
+            RectangularWidgetView(entry: entry)
+        default:
+            SmallWidgetView(entry: entry)
+        }
+    }
+}
+
+// MARK: - Small (Home Screen)
+
+struct SmallWidgetView: View {
     let entry: FocalWidgetEntry
 
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
-
-            // Phase label
             Text(entry.data.phase.uppercased())
                 .font(.system(size: 9, weight: .semibold))
                 .kerning(1.2)
                 .foregroundStyle(.secondary)
 
-            // Timer — live countdown when running, static otherwise
             Group {
                 if entry.data.isRunning,
                    let endDate = entry.data.endDate,
@@ -78,7 +92,6 @@ struct FocalWidgetEntryView: View {
 
             Spacer()
 
-            // Cycle dots
             HStack(spacing: 5) {
                 ForEach(0..<entry.data.sessionsPerCycle, id: \.self) { i in
                     Circle()
@@ -91,7 +104,6 @@ struct FocalWidgetEntryView: View {
                 }
             }
 
-            // Sessions today
             Text("\(entry.data.sessionsToday) session\(entry.data.sessionsToday == 1 ? "" : "s") today")
                 .font(.system(size: 10))
                 .foregroundStyle(.secondary)
@@ -103,7 +115,78 @@ struct FocalWidgetEntryView: View {
     }
 }
 
-// MARK: - Widget
+// MARK: - Circular (Lock Screen)
+
+struct CircularWidgetView: View {
+    let entry: FocalWidgetEntry
+
+    private var progress: Double {
+        guard entry.data.phaseDuration > 0 else { return 0 }
+        return 1.0 - (entry.data.timeRemaining / entry.data.phaseDuration)
+    }
+
+    var body: some View {
+        Gauge(value: progress) {
+            EmptyView()
+        } currentValueLabel: {
+            if entry.data.isRunning,
+               let endDate = entry.data.endDate,
+               endDate > entry.date {
+                Text(timerInterval: entry.date...endDate, countsDown: true)
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .minimumScaleFactor(0.4)
+                    .monospacedDigit()
+            } else {
+                Text(entry.data.timeRemainingFormatted)
+                    .font(.system(size: 11, weight: .medium, design: .monospaced))
+                    .minimumScaleFactor(0.4)
+                    .monospacedDigit()
+            }
+        }
+        .gaugeStyle(.accessoryCircular)
+        .containerBackground(.clear, for: .widget)
+        .widgetURL(URL(string: "focal://open"))
+    }
+}
+
+// MARK: - Rectangular (Lock Screen)
+
+struct RectangularWidgetView: View {
+    let entry: FocalWidgetEntry
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 2) {
+            Text(entry.data.phase.uppercased())
+                .font(.system(size: 9, weight: .semibold))
+                .kerning(1.2)
+                .foregroundStyle(.secondary)
+
+            Group {
+                if entry.data.isRunning,
+                   let endDate = entry.data.endDate,
+                   endDate > entry.date {
+                    Text(timerInterval: entry.date...endDate, countsDown: true)
+                        .monospacedDigit()
+                } else {
+                    Text(entry.data.timeRemainingFormatted)
+                        .monospacedDigit()
+                }
+            }
+            .font(.system(size: 26, weight: .thin, design: .monospaced))
+            .minimumScaleFactor(0.6)
+            .lineLimit(1)
+
+            Text("\(entry.data.sessionsToday) session\(entry.data.sessionsToday == 1 ? "" : "s") today")
+                .font(.system(size: 10))
+                .foregroundStyle(.secondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .leading)
+        .containerBackground(.clear, for: .widget)
+        .widgetURL(URL(string: "focal://open"))
+    }
+}
+
+// MARK: - Widget + Bundle
 
 struct FocalWidget: Widget {
     let kind = "FocalWidget"
@@ -114,7 +197,11 @@ struct FocalWidget: Widget {
         }
         .configurationDisplayName("Focal Timer")
         .description("Track your focus sessions at a glance.")
-        .supportedFamilies([.systemSmall])
+        .supportedFamilies([
+            .systemSmall,
+            .accessoryCircular,
+            .accessoryRectangular
+        ])
     }
 }
 
@@ -124,10 +211,31 @@ struct FocalWidget: Widget {
     FocalWidget()
 } timeline: {
     FocalWidgetEntry(date: .now, data: .placeholder)
+}
+
+#Preview(as: .accessoryCircular) {
+    FocalWidget()
+} timeline: {
     FocalWidgetEntry(date: .now, data: WidgetTimerData(
         phase: "Focus",
         isRunning: true,
         timeRemaining: 18 * 60,
+        phaseDuration: 25 * 60,
+        endDate: Date.now.addingTimeInterval(18 * 60),
+        sessionsToday: 2,
+        currentCycleRounds: 2,
+        sessionsPerCycle: 4
+    ))
+}
+
+#Preview(as: .accessoryRectangular) {
+    FocalWidget()
+} timeline: {
+    FocalWidgetEntry(date: .now, data: WidgetTimerData(
+        phase: "Focus",
+        isRunning: true,
+        timeRemaining: 18 * 60,
+        phaseDuration: 25 * 60,
         endDate: Date.now.addingTimeInterval(18 * 60),
         sessionsToday: 2,
         currentCycleRounds: 2,

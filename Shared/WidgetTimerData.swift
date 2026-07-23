@@ -11,7 +11,8 @@ struct WidgetTimerData: Codable {
     var phase: String
     var isRunning: Bool
     var timeRemaining: TimeInterval
-    var endDate: Date?          // non-nil when timer is running
+    var phaseDuration: TimeInterval = 25 * 60  // default prevents decode failure on old cache
+    var endDate: Date?
     var sessionsToday: Int
     var currentCycleRounds: Int
     var sessionsPerCycle: Int
@@ -23,6 +24,7 @@ struct WidgetTimerData: Codable {
             phase: "Focus",
             isRunning: false,
             timeRemaining: 25 * 60,
+            phaseDuration: 25 * 60,
             endDate: nil,
             sessionsToday: 0,
             currentCycleRounds: 0,

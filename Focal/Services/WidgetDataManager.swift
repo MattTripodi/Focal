@@ -30,6 +30,7 @@ final class WidgetDataManager {
             phase: timer.phase.rawValue,
             isRunning: timer.timerState == .running,
             timeRemaining: timer.timeRemaining,
+            phaseDuration: timer.currentPhaseDuration,
             endDate: endDate,
             sessionsToday: timer.completedSessionsToday,
             currentCycleRounds: timer.currentCycleRounds,
